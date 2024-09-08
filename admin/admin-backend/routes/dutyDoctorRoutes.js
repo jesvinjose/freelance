@@ -5,4 +5,6 @@ const dutyDoctorController=require('../controllers/dutyDoctorController');
 
 dutyDoctorRoute.post('/adddutydoctor',upload.single('image'),dutyDoctorController.addDutyDoctor);
 
+dutyDoctorRoute.get('/getdutydoctors',dutyDoctorController.getDutyDoctors)
+
 module.exports=dutyDoctorRoute;

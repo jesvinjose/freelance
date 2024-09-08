@@ -1,46 +1,58 @@
 "use client";
 
-import { useState } from "react";
+import { useState,useEffect  } from "react";
+import axios from "axios";
 
 const DutyDoctorsTable = () => {
-  const [doctors, setDoctors] = useState([
-    {
-      id: 1,
-      name: "Dr. Alice Williams",
-      qualification: "MBBS, Emergency Medicine",
-      image: "/images/alice_williams.jpg", // Example image path
-    },
-    {
-      id: 2,
-      name: "Dr. Bob Johnson",
-      qualification: "MD, Critical Care",
-      image: "/images/bob_johnson.jpg", // Example image path
-    },
-    // Add more duty doctors as needed
-  ]);
-
+  const [doctors, setDoctors] = useState([]);
   const [newDoctorName, setNewDoctorName] = useState("");
   const [newDoctorQualification, setNewDoctorQualification] = useState("");
   const [newDoctorImage, setNewDoctorImage] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
 
+  useEffect(() => {
+    const fetchDoctors = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/api/dutydoctor/getdutydoctors");
+            console.log(response.data); // Check the structure of the data
+            setDoctors(response.data); // Assuming API returns { dutyDoctors: [...] }
+        } catch (error) {
+            console.error("Error fetching duty doctors:", error);
+        }
+    };
+
+    fetchDoctors();
+}, []);
+
   const handleImageUpload = (e) => {
     setNewDoctorImage(e.target.files[0]);
   };
 
-  const handleAddDoctor = () => {
+  const handleAddDoctor =async () => {
     if (newDoctorName && newDoctorQualification && newDoctorImage) {
-      const newDoctor = {
-        id: doctors.length + 1,
-        name: newDoctorName,
-        qualification: newDoctorQualification,
-        image: URL.createObjectURL(newDoctorImage),
-      };
-      setDoctors([...doctors, newDoctor]);
-      setNewDoctorName("");
-      setNewDoctorQualification("");
-      setNewDoctorImage(null);
-      setShowAddForm(false);
+      const formData = new FormData();
+      formData.append("name", newDoctorName);
+      formData.append("qualification", newDoctorQualification);
+      formData.append("image", newDoctorImage);
+
+      try {
+        const response = await axios.post("http://localhost:5000/api/dutydoctor/adddutydoctor", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        if (response.status === 201) {
+          const addedDoctor = response.data.dutydoctor;
+
+          // Update state with the newly added consultant
+          setDoctors([...doctors, addedDoctor]);
+          setNewDoctorName("");
+          setNewDoctorQualification("");
+          setNewDoctorImage(null);
+          setShowAddForm(false);
+        }
+      } catch (error) {
+        console.error("Error adding dutydoctor:", error);
+      }
     }
   };
 
@@ -98,10 +110,11 @@ const DutyDoctorsTable = () => {
         </thead>
         <tbody>
           {doctors.map((doctor) => (
-            <tr key={doctor.id}>
+            <tr key={doctor._id}>
               <td className="border px-4 py-2">
                 <img
-                  src={doctor.image}
+                  // src={doctor.image}
+                  src={`/admin-backend/${doctor.image}`} // Ensure this path is correct
                   alt={doctor.name}
                   className="h-16 w-16 object-cover rounded-full"
                 />

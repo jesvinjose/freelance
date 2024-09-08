@@ -24,6 +24,9 @@ const path = require("path");
 // Serve static files from the public directory
 app.use("/uploads", express.static(path.join(__dirname, "public", "images")));
 
+// Middleware setup
+app.use(express.json());
+
 const adminRoute = require("./routes/adminRoutes");
 const consultantRoute = require("./routes/consultantRoutes");
 const dutyDoctorRoute=require('./routes/dutyDoctorRoutes');
