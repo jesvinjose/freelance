@@ -30,10 +30,12 @@ app.use(express.json());
 const adminRoute = require("./routes/adminRoutes");
 const consultantRoute = require("./routes/consultantRoutes");
 const dutyDoctorRoute=require('./routes/dutyDoctorRoutes');
+const treatmentRoute=require('./routes/treatmentRoutes');
 
 app.use("/api/admin", adminRoute);
 app.use("/api/consultant", consultantRoute);
 app.use('/api/dutydoctor',dutyDoctorRoute);
+app.use('/api/treatment',treatmentRoute);
 
 app.listen(port, async () => {
   console.log(`Server is running on port ${port}`);

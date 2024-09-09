@@ -33,6 +33,7 @@ const ConsultantsTable = () => {
   };
 
   const handleAddConsultant = async () => {
+    setShowEditForm(false);
     if (newConsultantName && newConsultantQualification && newConsultantImage) {
       const formData = new FormData();
       formData.append("name", newConsultantName);
@@ -141,7 +142,10 @@ const ConsultantsTable = () => {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-semibold">Consultants</h2>
         <button
-          onClick={() => setShowAddForm(!showAddForm)}
+          onClick={() => {
+            setShowAddForm(!showAddForm); // Toggle the Add form
+            setShowEditForm(false); // Ensure the Edit form is closed
+          }}
           className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
         >
           {showAddForm ? "Cancel" : "Add Consultant"}
@@ -211,7 +215,7 @@ const ConsultantsTable = () => {
           </button>
           <button
             onClick={handleCancel}
-            className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700"
+            className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 my-2 sm:my-0 sm:ml-4"
           >
             Cancel
           </button>

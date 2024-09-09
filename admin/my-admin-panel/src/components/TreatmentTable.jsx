@@ -1,30 +1,67 @@
 "use client";
 
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Import Quill styles
 
 const TreatmentTable = () => {
-  const [treatments, setTreatments] = useState([
-    { id: 1, name: "Physiotherapy", description: "Treatment for muscle pain." },
-    { id: 2, name: "Acupuncture", description: "Ancient Chinese medicine technique." },
-    // Add more treatments as needed
-  ]);
+  const [treatments, setTreatments] = useState([]);
   const [newTreatmentName, setNewTreatmentName] = useState("");
   const [newTreatmentDescription, setNewTreatmentDescription] = useState("");
+  const [newTreatmentImage, setNewTreatmentImage] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
 
-  const handleAddTreatment = () => {
-    if (newTreatmentName && newTreatmentDescription) {
-      const newTreatment = {
-        id: treatments.length + 1,
-        name: newTreatmentName,
-        description: newTreatmentDescription,
-      };
-      setTreatments([...treatments, newTreatment]);
-      setNewTreatmentName("");
-      setNewTreatmentDescription("");
-      setShowAddForm(false);
+  useEffect(() => {
+    const fetchTreatments = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/treatment/gettreatments"
+        );
+        setTreatments(response.data);
+      } catch (error) {
+        console.error("Error fetching treatments:", error);
+      }
+    };
+
+    fetchTreatments();
+  }, []);
+
+  const handleImageUpload = (e) => {
+    setNewTreatmentImage(e.target.files[0]);
+  };
+
+  const handleAddTreatment = async () => {
+    // setShowEditForm(false);
+    if (newTreatmentName && newTreatmentDescription && newTreatmentImage) {
+      const formData = new FormData();
+      formData.append("name", newTreatmentName);
+      formData.append("description", newTreatmentDescription);
+      formData.append("image", newTreatmentImage);
+
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/api/treatment/addtreatment",
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
+
+        if (response.status === 201) {
+          const addedTreatment = response.data.treatment;
+
+          setTreatments([...treatments, addedTreatment]);
+          setNewTreatmentName("");
+          setNewTreatmentDescription("");
+          setNewTreatmentImage(null);
+          setShowAddForm(false);
+        }
+      } catch (error) {
+        console.error("Error adding treatment:", error);
+      }
+    } else {
+      alert("Add the required fields: name, description and image");
     }
   };
 
@@ -56,6 +93,12 @@ const TreatmentTable = () => {
             className="mb-4"
             placeholder="Enter treatment description..."
           />
+          <input
+            type="file"
+            onChange={handleImageUpload}
+            className="border p-2 w-full mb-4"
+            accept="image/*"
+          />
           <button
             onClick={handleAddTreatment}
             className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
@@ -68,13 +111,21 @@ const TreatmentTable = () => {
       <table className="w-full border-collapse">
         <thead>
           <tr>
+            <th className="border px-4 py-2 text-left">Image</th>
             <th className="border px-4 py-2 text-left">Treatment Name</th>
             <th className="border px-4 py-2 text-left">Description</th>
           </tr>
         </thead>
         <tbody>
           {treatments.map((treatment) => (
-            <tr key={treatment.id}>
+            <tr key={treatment._id}>
+              <td className="border px-4 py-2">
+                <img
+                  src={`/${treatment.image}`}
+                  alt={treatment.name}
+                  className="h-16 w-16 object-cover rounded-full"
+                />
+              </td>
               <td className="border px-4 py-2">{treatment.name}</td>
               <td
                 className="border px-4 py-2"
