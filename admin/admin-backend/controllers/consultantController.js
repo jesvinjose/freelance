@@ -90,7 +90,7 @@ const updateConsultant = async (req, res) => {
       image: existingConsultant.image // Set the existing image by default
     };
 
-    console.log(updatedData);
+    // console.log(updatedData);
     
     // Check if a new image file was uploaded
     if (req.file) {
@@ -105,9 +105,8 @@ const updateConsultant = async (req, res) => {
       { new: true, runValidators: true }
     );
 
-    console.log(updatedConsultant);
+    // console.log(updatedConsultant);
     
-
     res.status(200).json({
       message: "Consultant updated successfully",
       consultant: updatedConsultant,
