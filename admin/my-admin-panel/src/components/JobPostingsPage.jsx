@@ -27,12 +27,18 @@ import {
   ChevronDownIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
+import JobPostingsTable from "./JobPostingsTable";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
   { name: "Branches", href: "/branches", icon: UsersIcon, current: false },
   { name: "Treatments", href: "/treatments", icon: FolderIcon, current: false },
-  { name: "Consultants", href: "/consultants", icon: CalendarIcon, current: false },
+  {
+    name: "Consultants",
+    href: "/consultants",
+    icon: CalendarIcon,
+    current: false,
+  },
   {
     name: "Duty Doctors",
     href: "/duty-doctors",
@@ -40,7 +46,12 @@ const navigation = [
     current: false,
   },
   { name: "Jobs", href: "/jobpostings", icon: ChartPieIcon, current: false },
-  { name: "Applications", href: "/applications", icon: ChartPieIcon, current: false },
+  {
+    name: "Applications",
+    href: "/applications",
+    icon: ChartPieIcon,
+    current: false,
+  },
   { name: "Messages", href: "/messages", icon: ChartPieIcon, current: false },
 ];
 const teams = [
@@ -57,17 +68,19 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const jobPostings = [
-  { id: 1, designation: "Software Engineer", vacancies: 5 },
-  { id: 2, designation: "Product Manager", vacancies: 2 },
-  { id: 3, designation: "Data Scientist", vacancies: 3 },
-  // Add more job postings as needed
-];
-
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <>
+      {/*
+        This example requires updating your template:
+
+        ```
+        <html class="h-full bg-white">
+        <body class="h-full">
+        ```
+      */}
       <div>
         <Dialog
           open={sidebarOpen}
@@ -355,60 +368,9 @@ export default function Example() {
               </div>
             </div>
           </div>
-
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
-              {/* Your content */}
-
-              <div className="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
-                <div className="-ml-4 -mt-2 flex flex-wrap items-center justify-between sm:flex-nowrap">
-                  <div className="ml-4 mt-2">
-                    <h3 className="text-base font-semibold leading-6 text-gray-900">
-                      Job Postings
-                    </h3>
-                  </div>
-                  <div className="ml-4 mt-2 flex-shrink-0">
-                    <button
-                      type="button"
-                      className="relative inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                      Create new job
-                    </button>
-                  </div>
-                </div>
-                <div className="mt-6">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Designation
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Number of Vacancies
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {jobPostings.map((job) => (
-                        <tr key={job.id}>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {job.designation}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {job.vacancies}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+              <JobPostingsTable />
             </div>
           </main>
         </div>

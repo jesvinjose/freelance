@@ -118,9 +118,7 @@ const DutyDoctorsTable = () => {
 
           setDoctors(
             doctors.map((doctor) =>
-              doctor._id === updatedDutyDoctor._id
-                ? updatedDutyDoctor
-                : doctor
+              doctor._id === updatedDutyDoctor._id ? updatedDutyDoctor : doctor
             )
           );
 
@@ -183,8 +181,7 @@ const DutyDoctorsTable = () => {
         </div>
       )}
 
-      
-{showEditForm && currentDutyDoctor && (
+      {showEditForm && currentDutyDoctor && (
         <div className="mb-6 p-4 border rounded-md bg-white shadow">
           <h3 className="text-lg font-medium mb-2">Edit Duty Doctor</h3>
           <input

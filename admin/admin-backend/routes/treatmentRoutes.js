@@ -11,4 +11,15 @@ treatmentRoute.post(
 
 treatmentRoute.get("/gettreatments", treatmentController.getTreatments);
 
+treatmentRoute.delete(
+  "/deletetreatment/:id",
+  treatmentController.deleteTreatment
+);
+
+treatmentRoute.put(
+  "/updatetreatment/:id",
+  upload.single("image"),
+  treatmentController.updateTreatment
+);
+
 module.exports = treatmentRoute;
