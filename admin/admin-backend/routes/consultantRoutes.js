@@ -1,6 +1,6 @@
 const express = require("express");
 const consultantRoute = express.Router();
-const upload = require("../uploadConfig");
+const upload = require("../uploadImageConfig");
 const consultantController = require("../controllers/consultantController");
 
 consultantRoute.post(

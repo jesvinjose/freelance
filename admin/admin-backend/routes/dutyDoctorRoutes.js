@@ -1,6 +1,6 @@
 const express = require("express");
 const dutyDoctorRoute = express.Router();
-const upload = require("../uploadConfig");
+const upload = require("../uploadImageConfig");
 const dutyDoctorController = require("../controllers/dutyDoctorController");
 
 dutyDoctorRoute.post(
