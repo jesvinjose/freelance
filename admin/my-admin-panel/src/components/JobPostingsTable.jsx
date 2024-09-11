@@ -84,24 +84,18 @@ const JobPostingsTable = () => {
 
   const handleUpdateJob = async () => {
     if (currentJob) {
-      const formData = new FormData();
-      formData.append(
-        "designation",
-        newJobDesignation || currentJob.designation
-      );
-      formData.append(
-        "jobvacancies",
-        newJobVacancies || currentJob.jobvacancies
-      );
-
-      console.log(formData);
+       // Create a JSON object for the data
+       const jobData = {
+        designation: newJobDesignation||currentJob.designation,
+        jobvacancies: newJobVacancies||currentJob.jobvacancies,
+      };
 
       try {
         const response = await axios.put(
           `http://localhost:5000/api/job/updatejob/${currentJob._id}`,
-          formData,
+          jobData,
           {
-            headers: { "Content-Type": "multipart/form-data" },
+            headers: { "Content-Type": "application/json" },
           }
         );
 

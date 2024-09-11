@@ -2,10 +2,11 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
 import Sidebar from "./components/Sidebar";
-import JobPostingsPage from './components/JobPostingsPage';
+import JobPostingsPage from "./components/JobPostingsPage";
 import TreatmentsPage from "./components/TreatmentsPage";
 import ConsultantsPage from "./components/ConsultantsPage";
 import DutyDoctorsPage from "./components/DutyDoctorsPage";
+import ApplicationsPage from "./components/ApplicationsPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/treatments" element={<TreatmentsPage />} />
           <Route path="/consultants" element={<ConsultantsPage />} />
           <Route path="/duty-doctors" element={<DutyDoctorsPage />} />
+          <Route path="/applications" element={<ApplicationsPage />} />
         </Routes>
       </BrowserRouter>
     </div>
