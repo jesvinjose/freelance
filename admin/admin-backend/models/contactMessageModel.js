@@ -1,17 +1,14 @@
 const mongoose = require("mongoose");
 
-const applicationSchema = mongoose.Schema(
+const contactMessageSchema = mongoose.Schema(
   {
-    designation: {
-      type: mongoose.Schema.Types.ObjectId, // Reference the Job model by its ObjectId
-      required: true,
-      ref: "Job", // Reference the Job model
-      trim: true,
-    },
-    name: {
+    firstName: {
       type: String,
       required: true,
-      trim: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
     },
     email: {
       type: String,
@@ -25,7 +22,7 @@ const applicationSchema = mongoose.Schema(
       trim: true,
       match: [/^\d{10}$/, "Please fill a valid mobile number"],
     },
-    resumeFile: {
+    message: {
       type: String,
       required: true, // Path to the resume file
     },
@@ -35,5 +32,5 @@ const applicationSchema = mongoose.Schema(
   }
 );
 
-const Application = mongoose.model("Application", applicationSchema);
-module.exports = Application;
+const ContactMessage = mongoose.model("ContactMessage", contactMessageSchema);
+module.exports = ContactMessage;

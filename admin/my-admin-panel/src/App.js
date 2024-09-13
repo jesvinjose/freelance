@@ -7,6 +7,7 @@ import TreatmentsPage from "./components/TreatmentsPage";
 import ConsultantsPage from "./components/ConsultantsPage";
 import DutyDoctorsPage from "./components/DutyDoctorsPage";
 import ApplicationsPage from "./components/ApplicationsPage";
+import ContactMessagesPage from "./components/ContactMessagesPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/consultants" element={<ConsultantsPage />} />
           <Route path="/duty-doctors" element={<DutyDoctorsPage />} />
           <Route path="/applications" element={<ApplicationsPage />} />
+          <Route path="/messages" element={<ContactMessagesPage/>}/>
         </Routes>
       </BrowserRouter>
     </div>

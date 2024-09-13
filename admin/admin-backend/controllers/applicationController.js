@@ -1,11 +1,12 @@
 const Application = require("../models/applicationModel");
+const path = require("path");
+const fs = require("fs");
 
 const addApplication = async (req, res) => {
   try {
     const { name, mobile, email, designation } = req.body;
 
-    console.log(req.body,"<------------req.body");
-    
+    // console.log(req.body, "<------------req.body");
 
     // Check if a resume file was uploaded
     if (!req.file) {
@@ -41,7 +42,13 @@ const addApplication = async (req, res) => {
 
 const getApplications = async (req, res) => {
   try {
-    const applications = await Application.find();
+    // const applications = await Application.find();
+
+    // res.status(200).json(applications);
+
+    // Fetch all applications and populate the `designation` field with job details
+    const applications = await Application.find().populate("designation");
+    // console.log(applications,"<----------applications-");
 
     res.status(200).json(applications);
   } catch (error) {
@@ -54,6 +61,8 @@ const getApplications = async (req, res) => {
 
 const deleteApplication = async (req, res) => {
   try {
+    // console.log("inside deleteApplication");
+
     const id = req.params.id;
 
     // Find the consultant by ID and delete
@@ -125,9 +134,36 @@ const updateApplication = async (req, res) => {
   }
 };
 
+const downloadResume = async (req, res) => {
+  const filename = req.params.filename;
+  console.log(__dirname);
+
+  const filePath = path.join(
+    __dirname,
+    "..",
+    "..",
+    "admin-backend",
+    "public",
+    "uploads",
+    "resumes",
+    filename
+  );
+
+  console.log(filename, "<--------------filename");
+
+  res.download(filePath, fs.constants.F_OK, (err) => {
+    // Check if file exists before attempting to download
+    if (err) {
+      console.error("Error downloading file:", err);
+      res.status(500).send("Error downloading file");
+    }
+  });
+};
+
 module.exports = {
   addApplication,
   getApplications,
   deleteApplication,
   updateApplication,
+  downloadResume,
 };
